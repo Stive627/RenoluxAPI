@@ -1,11 +1,12 @@
 const express = require('express')
-const { Register, login, addMedia, updateMedia, deleteMedia, passwordRecovery, passwordChange, addComment, displayComment, showMedia, deleteComment, placoDevis, peintureDevis } = require('../Controller/renoController')
+const { Register, login, addMedia, updateMedia, deleteMedia, passwordRecovery, passwordChange, addComment, displayComment, showMedia, deleteComment, placoDevis, peintureDevis, getPlans, connect, emailVerification } = require('../Controller/renoController')
 const multer = require('multer')
 const routerAdmin = express.Router()
 const routerMedia = express.Router()
 const routerComment = express.Router()
 const routerPlaco = express.Router()
 const routerPeinture = express.Router()
+const routerPicture = express.Router()
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -35,7 +36,9 @@ const authRoute = (req, res, next) =>{
 const upload = multer({storage:storage})
  
 routerAdmin.post('/register', Register)
+routerAdmin.post('/emailverification', emailVerification)
 routerAdmin.post('/login', login)
+routerAdmin.get('/connect', connect)
 routerAdmin.post('/passwordRecovery',passwordRecovery)
 routerAdmin.post('/passwordChange', passwordChange)
 
@@ -51,4 +54,6 @@ routerComment.get('/show', displayComment)
 routerPlaco.post('/generate', authRoute, placoDevis)
 routerPeinture.post('/generate', authRoute, peintureDevis)
 
-module.exports = {routerAdmin, routerMedia, routerComment, routerPlaco, routerPeinture}
+routerPicture.get('/plans', getPlans)
+
+module.exports = {routerAdmin, routerMedia, routerComment, routerPlaco, routerPeinture, routerPicture}

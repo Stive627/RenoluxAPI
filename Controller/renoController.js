@@ -28,7 +28,7 @@ const Register = async(req, res) => {
     const newAdmin = new AdminModel({username:username, email:email, password:cryptPass})
     await newAdmin.save()
     .catch((error)=>res.status(400).send(error))
-    await tmail('renoluxcameroun@gmail.com', 'ratdafwbjdqbilpt', email, 'Nouveau admininstrateur Renolux', "<h1 style='color:'blue'>Bienvenue dans l\'espace administrateur de renolux cameroun.</h1>")
+    await tmail('renolux3@@gmail.com', 'fltnedzlveaexylz', email, 'Nouveau admininstrateur Renolux', "<h1 style='color:'blue'>Bienvenue dans l\'espace administrateur de renolux cameroun.</h1>")
     .then((value) => {console.log(value.response); res.status(200).send(value.response)})
     .catch((error) => console.log('An error occured while sending message', error))
 }
@@ -40,18 +40,25 @@ const login = async (req, res) => {
     if(!user) return res.status(400).send('Invalid credential')
     const goodPassowrd = await bcrypt.compare(password, user.password).catch((error)=>res.status(400).send(error))
     if(goodPassowrd){
-        const token = jwt.sign({_id:user._id}, process.env.SECRET_KEY)
-        return res.send(`successfully logged, ${token}`)   
+        return res.send(`successfully logged`)   
     }
     res.send('invalid credentials.')
 }
 
+const emailVerification = async (req, res) =>{
+    const {email} = req.body
+    const code = Math.floor(Math.random()*(199999 - 100000) + 100000)
+    const codeString = String(code).slice(0, 3) + ' ' + String(code).slice(3)
+    await tmail('renolux3@gmail.com', 'fltnedzlveaexylz', email, 'Voici le code pour modifier ton addresse Email', `<h2>Votre code de verification </h2><h1>${codeString}</h1>`)
+    .then((value)=>res.send({message:value.response, code:code}))
+    .catch((error)=>res.status(400).send(error))
+}
 
 const passwordRecovery = async (req, res) =>{
     const {email} = req.body
     const code = Math.floor(Math.random()*(199999 - 100000) + 100000)
     const codeString = String(code).slice(0, 3) + ' ' + String(code).slice(3)
-    await tmail('renoluxcameroun@gmail.com', 'ratdafwbjdqbilpt', email, 'Voici le code pour modifier ton mot de passe', `<h2>Votre code de verification </h2><h1>${codeString}</h1>`)
+    await tmail('renolux3@gmail.com', 'fltnedzlveaexylz', email, 'Voici le code pour modifier ton mot de passe', `<h2>Votre code de verification </h2><h1>${codeString}</h1>`)
     .then((value)=>res.send({message:value.response, code:code}))
     .catch((error)=>res.status(400).send(error))
 
@@ -64,6 +71,14 @@ const passwordChange = async (req, res) => {
     await AdminModel.updateOne({email:req.body.email}, {password:cryptPass})
     .then(()=>res.send('Password successfully changed.'))
     .catch((reason)=>res.send(`An error occured. \nThe reason is ${reason}`)) 
+}
+
+const connect = (req, res)=>{
+    const cook = req.cookies.userInfo
+    if(!cook){
+        return res.status(400).send({message:'An error occured'})
+    }
+    return res.status(200).send(JSON.parse(cook))
 }
 
 const addMedia = async(req, res) => {
@@ -440,5 +455,13 @@ const peintureDevis = async(req, res) => {
    .catch((reason)=>res.status(400).send(reason))
     
 }
+const getPlans = (req, res) => {
+    fs.readdir('public/plans/', (err, files) => {
+        if(err){
+          return  res.status(400).send(err)
+        }
+        res.status(200).send(files)
+    })
+}
 
-module.exports = {Register, login, addMedia, updateMedia, deleteMedia, passwordRecovery, passwordChange, addComment, deleteComment, displayComment, showMedia, placoDevis, peintureDevis}
+module.exports = {Register, login, addMedia, updateMedia, deleteMedia, passwordRecovery, passwordChange, addComment, deleteComment, displayComment, showMedia, placoDevis, peintureDevis, getPlans, connect, emailVerification}
