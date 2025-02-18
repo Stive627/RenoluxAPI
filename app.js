@@ -20,19 +20,7 @@ app.use('/media', routerMedia)
 app.use('/comment', routerComment)
 app.use('/placo', routerPlaco)
 app.use('/peinture', routerPeinture)
-app.use('/medias', routerPicture)
-app.use('/', express.static("public/"))
-app.get('/add', (req, res)=>{
-    res.cookie('cook', 'fossi', {maxAge:60*60*24*1000, httpOnly:true})
-    res.send('cookie set')
-})
-app.get('/connect', (req, res)=>{
-    const cook = req.cookies.userInfo
-    if(!cook){
-        return res.status(400).send('An error occured')
-    }
-    return res.status(200).send(JSON.parse(cook))
-})
+app.use('/', express.static("public"))
 app.get('/test', (req, res)=>res.send('The API is working'))
 mongoose.connect(process.env.URI, {'dbName':'RenoluxDB'}).then(()=>console.log('Connected to the database')).catch((error) =>console.log('An error occured\n', error)) 
 app.listen(port, ()=>{console.log(`The server is running at http://localhost:${port}`)})
