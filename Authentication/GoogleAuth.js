@@ -1,16 +1,16 @@
 const express = require('express')
 const axios = require('axios')
-const router = express.Router()
+const routerGoogle = express.Router()
 require('dotenv').config()
 
 const REDIRECT_URI = 'http://localhost:3001/auth/google/callback'
 
-router.get('/auth/google', (req, res)=>{
+routerGoogle.get('/auth/google', (req, res)=>{
     const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
     res.redirect(url)
 })
 
-router.get('/auth/google/callback', async(req, res)=>{
+routerGoogle.get('/auth/google/callback', async(req, res)=>{
     const {code} = req.query
     try{ 
     const {data} = await axios.post('https://oauth2.googleapis.com/token', {
@@ -33,4 +33,4 @@ console.error('Error:', error.response.data)
 })
 
 
-module.exports = router
+module.exports = routerGoogle
