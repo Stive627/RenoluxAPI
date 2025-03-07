@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const tmail = require('./tmail')
 const AdminModel = require('./Admin')
 require('dotenv').config()
