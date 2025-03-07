@@ -12,7 +12,7 @@ const routerComment = require('./Comment/commentRouter')
 const placoRouter = require('./PlacoBill/placoRouter')
 
 const app = express()
-const port = process.env.PORT
+const port = process.env.PORT || 8080
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({origin:'http://localhost:3000', credentials:true}))
