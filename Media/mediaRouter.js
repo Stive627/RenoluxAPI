@@ -12,7 +12,6 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({storage:storage})
-
 const routerMedia = express.Router()
 routerMedia.post('/add', upload.single('media') ,addMedia)
 routerMedia.put('/update/:id', upload.single('media'), updateMedia)

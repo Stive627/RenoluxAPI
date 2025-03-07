@@ -8,6 +8,6 @@ const commentSchema = new Schema({
     stars:{type:Number, required:true}
 },{timestamps:true})
 
-const CommentModel = mongoose.model('Comment', commentSchema)
+const CommentModel = mongoose.model('Comments', commentSchema)
 
 module.exports = CommentModel

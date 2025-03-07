@@ -6,5 +6,5 @@ const MediaSchema = new Schema({
     category:{type:String, required:true},
 }, {timestamps:true})
 
-const MediaModel = mongoose.model('Media', MediaSchema)
+const MediaModel = mongoose.model('Medias', MediaSchema)
 module.exports = MediaModel
