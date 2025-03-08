@@ -5,7 +5,7 @@ require('dotenv').config()
 
 const Register = async(req, res) => {
     const {username, email, password} = req.body
-    if(!username || !email || !password){
+    if(!username || !email || !password){ 
         return res.status(400).send('The field(s) are missing.')
     }
     if(username.length < 4){
