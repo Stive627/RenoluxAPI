@@ -14,6 +14,7 @@ RUN npm install
 COPY . .
 
 # Expose the port your app uses
+ENV PORT=8080
 EXPOSE 8080
 
 # Run the application
