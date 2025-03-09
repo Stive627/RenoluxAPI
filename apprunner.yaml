@@ -1,0 +1,9 @@
+version: 1.0
+runtime: nodejs
+build:
+  runtime: docker
+  dockerfilePath: ./Dockerfile
+run:
+  command: ["node", "app.js"]
+  network:
+    port: 8080
