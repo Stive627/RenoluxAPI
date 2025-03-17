@@ -13,6 +13,7 @@ const placoRouter = require('./PlacoBill/placoRouter')
 
 const app = express()
 const port = process.env.PORT || 8080
+const URI = process.env.URI
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({origin:'http://localhost:3000', credentials:true}))
@@ -26,5 +27,5 @@ app.use('/peinture', peintureRouter)
 app.use('/placo', placoRouter)
 app.use('/public', express.static("public"))
 app.get('/test', (req, res)=>res.send('The API is working now'))
-mongoose.connect(process.env.URI ,{'dbName':'RenoluxDB'}).then(()=>console.log('Connected to the database')).catch((error) =>console.log('An error occured\n', error)) 
+mongoose.connect(URI ,{'dbName':'RenoluxDB'}).then(()=>console.log('Connected to the database')).catch((error) =>console.log('An error occured\n', error)) 
 app.listen(port, ()=>{console.log(`The server is running at http://localhost:${port}`)})
