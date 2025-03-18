@@ -57,9 +57,10 @@ const showMedia = async(req, res) => {
 
 const getPlans = (req, res) => {
     try{
-        fs.readdir('public/plans/', (err, files) => {
+        fs.readdir('public/plans/', async(err, files) => {
             if(err) return res.status(400).send(err)
-            res.status(200).send(files)
+            const medias = await MediaModel.find()
+            res.status(200).send(medias)
         })
     }
     catch(err){
