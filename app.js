@@ -10,7 +10,6 @@ const routerMedia = require('./Media/mediaRouter')
 const peintureRouter = require('./PeintureBill/peintureRouter')
 const routerComment = require('./Comment/commentRouter')
 const placoRouter = require('./PlacoBill/placoRouter')
-const run = require('./Media/db/connect')
 
 const app = express()
 const port = process.env.PORT || 8080
@@ -28,5 +27,5 @@ app.use('/peinture', peintureRouter)
 app.use('/placo', placoRouter)
 app.use('/public', express.static("public"))
 app.get('/test', (req, res) => res.status(200).send(`The API is working, ${process.env.URI}` ))
-run().catch(console.dir);
+mongoose.connect(URI ,{'dbName':'RenoluxDB'}).then(()=>console.log('Connected to the database')).catch((error) =>console.log('An error occured\n', error)) 
 app.listen(port, ()=>{console.log(`The server is running at http://localhost:${port}`)})
