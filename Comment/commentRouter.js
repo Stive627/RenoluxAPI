@@ -4,6 +4,6 @@ const routerComment = express.Router()
 
 routerComment.post('/add', addComment)
 routerComment.delete('/delete/:id', deleteComment )
-routerComment.get('/show', displayComment)
+routerComment.get('/', displayComment)
 
 module.exports = routerComment

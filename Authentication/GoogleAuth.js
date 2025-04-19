@@ -3,7 +3,8 @@ const axios = require('axios')
 const routerGoogle = express.Router()
 require('dotenv').config()
 
-const REDIRECT_URI = 'http://localhost:3001/auth/google/callback'
+const REDIRECT_URI = process.env.NODE_ENV === 'production' ? 'http://localhost:3004/auth/google/callback' : 'https://tkcapi.tsasoft.com/auth/google/callback'
+const frontend_URI = process.env.NODE_ENV === 'production' ? '' : ''
 
 routerGoogle.get('/auth/google', (req, res)=>{
     const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
@@ -26,7 +27,7 @@ routerGoogle.get('/auth/google/callback', async(req, res)=>{
     })
     console.log(profile)
     res.cookie('userInfo', JSON.stringify(profile), {maxAge:1000*60*60*24, httpOnly:true})
-    res.redirect('http://localhost:3000/register')
+    res.redirect('http://localhost:3000/')
 } catch(error){
 console.error('Error:', error.response.data)
 }
