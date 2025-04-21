@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const routerMedia = require('./Media/mediaRouter')
+const routerComment = require('./Comment/commentRouter')
 
 const app = express()
 const port = process.env.PORT || 8080
@@ -13,6 +14,7 @@ app.use(cors({origin:['http://localhost:3000', 'https://renolux.tsasoft.com'], c
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use('/media', routerMedia)
+app.use('/comment', routerComment)
 app.use('/public', express.static("public"))
 app.get('/test', (req, res) => res.status(200).send(`The API is working, ${process.env.URI}` ))
 mongoose.connect(URI ,{'dbName':'RenoluxDB'}).then(()=>console.log('Connected to the database')).catch((error) =>console.log('An error occured\n', error)) 
