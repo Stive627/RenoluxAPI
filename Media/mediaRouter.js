@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
         cb(null, 'public/pictures/')
     },
     filename: function(req, file, cb){
-        cb(null, getEncoded(file.originalname))
+        cb(null, file.originalname)
     } 
 })
 
