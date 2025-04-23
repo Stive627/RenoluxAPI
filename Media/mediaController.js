@@ -24,7 +24,7 @@ const deleteMedia = async(req, res) => {
 
 const showMedia = async(req, res) => {
     try{ 
-        const medias = await MediaModel.find()
+        const medias = await MediaModel.find().sort({createdAt:-1})
         return res.status(200).send(medias)
     }
     catch(err){
