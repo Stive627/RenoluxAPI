@@ -16,7 +16,7 @@ const deleteComment = async(req, res) =>{
     
 }
 const displayComment = async(req, res) =>{
-    await CommentModel.find()
+    await CommentModel.find({}).sort({createdAt:-1})
     .then((data) => res.send(data))
     .catch((err) => res.send(`An error occured , ${err}`))
 }
