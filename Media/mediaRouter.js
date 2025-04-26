@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage:storage})
 const routerMedia = express.Router()
-routerMedia.post('/add', upload.single('img') ,addMedia)
+routerMedia.post('/add', upload.array('img',20) ,addMedia)
 routerMedia.delete('/delete/:id',  deleteMedia)
 routerMedia.get('/show',  showMedia)
 routerMedia.get('/plans', getPlans) 

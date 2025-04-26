@@ -4,12 +4,12 @@ require('dotenv').config()
 
 const addMedia = async(req, res) => {
     const {category} = req.body
-    const file = req.file
-    if(!category || !file) return res.send('There are the emplty fields.')
-    try{ 
-        const media = new MediaModel({url:file.path, category:category})
-        await media.save()
-        .then(() => res.status(200).send(media))
+    const files = req.files
+    if(!category || !files) return res.send('There are the emplty fields.')
+    const finalContent = files.reduce((acc, curr,indx) => ([...acc, {url:curr.path, category:category}]), [])
+    try{
+        await MediaModel.insertMany(finalContent)
+        .then((value) => res.status(200).send(value))
         .catch(err => res.status(400).send(err))
     }
     catch(error){res.status(400).send(error)}
