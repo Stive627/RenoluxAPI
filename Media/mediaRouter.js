@@ -1,6 +1,6 @@
 const express = require('express')
 const multer = require('multer')
-const { addMedia, deleteMedia, showMedia, getPlans, removeDir } = require('./mediaController')
+const { addMedia, deleteMedia, showMedia, removeDir } = require('./mediaController')
 const {S3Client} = require('@aws-sdk/client-s3')
 const multerS3 = require('multer-s3')
 require('dotenv').config()
