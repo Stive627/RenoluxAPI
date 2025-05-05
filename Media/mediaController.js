@@ -30,7 +30,7 @@ const deleteMedia = async(req, res) => {
         const media = await MediaModel.findOne({_id:req.params.id})
         const key = getUrlKey(media.url)
         const command = new DeleteObjectCommand({
-            Bucket:'renolux-bucket',
+            Bucket:process.env.AWS_BUCKET,
             Key:decodeURI(key)
         })
         await s3.send(command)

@@ -16,7 +16,7 @@ const s3 = new S3Client({
 
 const storage = multerS3({
     s3:s3,
-    bucket:'renolux-bucket',
+    bucket:process.env.AWS_BUCKET,
     metadata:function(req, file, cb){
         cb(null, {fieldName:file.fieldname})
     },
