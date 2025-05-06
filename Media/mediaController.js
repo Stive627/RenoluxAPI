@@ -27,7 +27,7 @@ const addMedia = async(req, res) => {
 
 const deleteMedia = async(req, res) => { 
     try {
-        const media = await MediaModel.findOne({_id:req.params.id})
+        const media = await MediaModel.findOneAndDelete({_id:req.params.id})
         const key = getUrlKey(media.url)
         const command = new DeleteObjectCommand({
             Bucket:process.env.AWS_BUCKET,
@@ -40,10 +40,10 @@ const deleteMedia = async(req, res) => {
     }
 } 
 
-const removeDir = (req, res) => {
-    fs.rmdir('public/', (err)=>{
+const removeDir = async(req, res) => {
+    fs.rm('public/', {recursive:true}, (err)=>{
         if(err) return res.status(400).send(err)
-            res.status(200).send('Successfully deleted')
+            res.status(200).send('The directory is deleted.')
     })
 }
 
