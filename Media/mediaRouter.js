@@ -1,6 +1,6 @@
 const express = require('express')
 const multer = require('multer')
-const { addMedia, deleteMedia, showMedia, removeDir } = require('./mediaController')
+const { addMedia, deleteMedia, showMedia} = require('./mediaController')
 const {S3Client} = require('@aws-sdk/client-s3')
 const multerS3 = require('multer-s3')
 require('dotenv').config()
@@ -32,7 +32,6 @@ const routerMedia = express.Router()
 routerMedia.post('/add', upload.single('img') , addMedia)
 routerMedia.delete('/delete/:id',  deleteMedia)
 routerMedia.get('/show',  showMedia)
-routerMedia.get('/dr', removeDir)
 
 
 module.exports = routerMedia

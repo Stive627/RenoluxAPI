@@ -1,4 +1,3 @@
-const fs = require('node:fs')
 const MediaModel = require('./Media')
 const getUrlKey = require('../functions/getUrlKey')
 const {S3Client, DeleteObjectCommand} = require('@aws-sdk/client-s3')
@@ -40,12 +39,6 @@ const deleteMedia = async(req, res) => {
     }
 } 
 
-const removeDir = async(req, res) => {
-    fs.rm('public/', {recursive:true}, (err)=>{
-        if(err) return res.status(400).send(err)
-            res.status(200).send('The directory is deleted.')
-    })
-}
 
 const showMedia = async(req, res) => {
     try{ 
@@ -58,4 +51,4 @@ const showMedia = async(req, res) => {
 } 
 
 
-module.exports = {deleteMedia, showMedia, addMedia, removeDir}
+module.exports = {deleteMedia, showMedia, addMedia}
