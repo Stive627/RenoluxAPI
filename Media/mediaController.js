@@ -1,7 +1,7 @@
 const MediaModel = require('./Media')
-const getUrlKey = require('../functions/getUrlKey')
 const {S3Client, DeleteObjectCommand} = require('@aws-sdk/client-s3')
 require('dotenv').config()
+const getUrlKey = require('../functions/getUrlKey')
 
 const s3 = new S3Client({
     region:process.env.AWS_REGION,
@@ -13,12 +13,13 @@ const s3 = new S3Client({
 
 const addMedia = async(req, res) => {
     const {category} = req.body
-    const file = req.file
-    if(!category || !file) return res.send('There are the emplty fields.')
+    const files = req.files
+    if(!category || !files) return res.status(400).send('There are the emplty fields.')
     try{ 
-        const media = new MediaModel({url:file.location, category:category})
+        const fileArr = files.map(elt => elt.location)
+        const media = new MediaModel({url:fileArr, category:category})
         await media.save()
-        .then(() => res.status(200).send(media))
+        .then((value) => res.status(200).send(value))
         .catch(err => res.status(400).send(err))
     }
     catch(error){res.status(400).send(error)}
@@ -27,15 +28,15 @@ const addMedia = async(req, res) => {
 const deleteMedia = async(req, res) => { 
     try {
         const media = await MediaModel.findOneAndDelete({_id:req.params.id})
-        const key = getUrlKey(media.url)
+        const key =  getUrlKey(media.url[0])
         const command = new DeleteObjectCommand({
             Bucket:process.env.AWS_BUCKET,
             Key:decodeURI(key)
         })
-        await s3.send(command)
+        await s3.send(command) 
         res.status(200).send('The media is deleted.')
     } catch (error) {
-        res.status(400).send(error)
+        res.status(400).send(error) 
     }
 } 
 

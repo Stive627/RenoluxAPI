@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const {Schema} = mongoose
 
 const MediaSchema = new Schema({
-    url:{type:String, required:true},
+    url:{type:Array, required:true},
     category:{type:String, required:true},
 }, {timestamps:true})
 
